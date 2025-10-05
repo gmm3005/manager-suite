@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const API_BASE = "http://localhost:8001"; // backend in docker-compose
+const API_BASE = ""; // backend in docker-compose
 
 export default function App() {
   return <ManagerDashboardV2 />;
@@ -13,7 +13,7 @@ function ManagerDashboardV2() {
   // Fetch live metrics from backend
   const [metrics, setMetrics] = useState<any | null>(null);
   useEffect(() => {
-    fetch(`${API_BASE}/metrics/overview`).then(r => r.json()).then(setMetrics).catch(console.error);
+    fetch(`${API_BASE}/api/metrics/overview`).then(r => r.json()).then(setMetrics).catch(console.error);
   }, []);
 
   return (
@@ -205,10 +205,7 @@ function Uploader() {
       if (nps) fd.append("nps", nps);
       if (hold) fd.append("hold_time_s", hold);
 
-      const res = await fetch(`${API_BASE}/transcribe`, {
-        method: "POST",
-        body: fd,
-      });
+      const res = await fetch(`${API_BASE}/api/transcribe`, { method: "POST", body: fd });
       if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
       const json = await res.json();
       setResp(json);

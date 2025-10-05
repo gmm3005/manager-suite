@@ -1,18 +1,17 @@
-
-
 services:
   api:
     build:
       context: ../backend
       dockerfile: Dockerfile
+    image: infra-api
     ports:
-      - "8001:8000"   # expose backend on 8001 (matches your App.tsx)
+      - "8001:8000"
 
   frontend:
     build:
       context: ../frontend
-      dockerfile: Dockerfile
-    ports:
-      - "5173:80"     # serve built frontend on http://localhost:5173
+    image: infra-frontend
     depends_on:
       - api
+    ports:
+      - "8080:80"
